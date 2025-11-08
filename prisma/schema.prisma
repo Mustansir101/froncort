@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  ownerId     String?
+  description String?
+  createdAt   DateTime @default(now())
+  pages       Page[]
+  columns     Column[]
+}
+
+model Page {
+  id        String        @id @default(cuid())
+  title     String
+  content   String        @default("") // store editor state / HTML / JSON
+  project   Project       @relation(fields: [projectId], references: [id])
+  projectId String
+  createdAt DateTime      @default(now())
+  versions  PageVersion[]
+}
+
+model PageVersion {
+  id        String   @id @default(cuid())
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId    String
+  title     String
+  content   String
+  version   Int      // incremental version number
+  createdAt DateTime @default(now())
+
+  @@index([pageId, version])
+}
+
+model Column {
+  id        String @id @default(cuid())
+  title     String
+  order     Int    @default(0)
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId String
+  cards     Card[]
+}
+
+model Card {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  order       Int       @default(0)
+  column      Column    @relation(fields: [columnId], references: [id])
+  columnId    String
+  assignee    String?
+  dueDate     DateTime?
+  labels      Json?
+  createdAt   DateTime  @default(now())
+}
+
+model Activity {
+  id         String   @id @default(cuid())
+  projectId  String
+  userId     String   // user who triggered the activity
+  type       String   // "mention", "page_edit", "card_move", "card_create", etc.
+  content    String   // human-readable description
+  metadata   Json?    // additional data (pageId, cardId, mentionedUserId, etc.)
+  createdAt  DateTime @default(now())
+
+  @@index([projectId, createdAt])
+  @@index([userId])
+}
