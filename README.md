@@ -2,6 +2,14 @@
 
 A lightweight, collaborative project management tool combining rich-text documentation with Kanban boards. Built with Next.js, TipTap, and Prisma.
 
+**Live Site here:** [link](https://froncort-vu2x-git-master-mustansir101s-projects.vercel.app/?_vercel_share=MQzlsAQZf9s75H76GZZWo7ijHcXugdr5)
+
+## Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+
 ## Features
 
 ### 📝 Rich-Text Collaborative Editor
@@ -98,9 +106,3 @@ npx prisma db push
 ```bash
 pnpm dev
 ```
-
-## Screenshots
-
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
