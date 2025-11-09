@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Froncort Assignment
+
+A lightweight, collaborative project management tool combining rich-text documentation with Kanban boards. Built with Next.js, TipTap, and Prisma.
+
+## Features
+
+### 📝 Rich-Text Collaborative Editor
+
+- **Real-time collaboration** powered by Yjs and WebSockets
+- **Live cursor indicators** showing other users editing simultaneously
+- **Rich formatting**: headings, lists, code blocks, links, images, tables
+- **Mentions system** with `@user` autocomplete and toast notifications
+- **Autosave** with seamless content synchronization
+- **Markdown shortcuts** for rapid formatting
+
+### 📋 Version History
+
+- Automatic versioning on every page save
+- View complete history of page changes
+- Restore previous versions with one click
+- Track author and timestamp for each version
+
+### 🎯 Kanban Boards
+
+- Configurable columns with drag-and-drop cards
+- **Rich card details**:
+  - Title and description
+  - Labels (colored badges)
+  - Assignees (team member dropdown)
+  - Due dates
+- Smooth animations and inline editing
+- Visual indicators for card states
+
+### 🔔 Activity Feed
+
+- Real-time activity tracking for:
+  - Card creation, moves, and edits
+  - User mentions in documents
+  - Card assignments
+  - Page edits
+- Project-specific activity filtering
+- Auto-refresh every 30 seconds
+- Integrated in sidebar for quick access
+
+### 🎨 Multi-Project Support
+
+- Sidebar navigation for switching between projects
+- Each project has isolated pages and boards
+- Project creation and management
+
+### 🔐 Authentication & Access Control
+
+- Secure authentication via Clerk
+- User-based access to projects
+- Profile management and Account Settings using Clerk
+- Protected routes and API endpoints
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Editor**: TipTap (ProseMirror-based)
+- **Real-time**: Yjs, y-websocket, y-prosemirror
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: Clerk
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI, Lucide Icons
+- **State Management**: Zustand, Immer
+- **Notifications**: Sonner
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+
+1. Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Create .env file with:
+DATABASE_URL="your_postgresql_connection_string"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your_clerk_publishable_key"
+CLERK_SECRET_KEY="your_clerk_secret_key"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run database migrations:
 
-## Learn More
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start the development server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Screenshots
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)

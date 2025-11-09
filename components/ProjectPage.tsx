@@ -160,46 +160,39 @@ export default function ProjectPage({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-1 rounded border border-zinc-100 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="mb-4">
-            <div className="inline-flex rounded-md bg-zinc-100 p-1 dark:bg-zinc-800">
-              <button
-                onClick={() => setView("editor")}
-                className={`px-3 py-1 text-sm ${
-                  view === "editor"
-                    ? "font-medium bg-white dark:bg-zinc-900"
-                    : "text-zinc-600 dark:text-zinc-300"
-                }`}
-              >
-                Editor
-              </button>
-              <button
-                onClick={() => setView("kanban")}
-                className={`px-3 py-1 text-sm ${
-                  view === "kanban"
-                    ? "font-medium bg-white dark:bg-zinc-900"
-                    : "text-zinc-600 dark:text-zinc-300"
-                }`}
-              >
-                Kanban
-              </button>
-            </div>
+      <div className="rounded border border-zinc-100 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+        <div className="mb-4">
+          <div className="inline-flex rounded-md bg-zinc-100 p-1 dark:bg-zinc-800">
+            <button
+              onClick={() => setView("editor")}
+              className={`px-3 py-1 text-sm ${
+                view === "editor"
+                  ? "font-medium bg-white dark:bg-zinc-900"
+                  : "text-zinc-600 dark:text-zinc-300"
+              }`}
+            >
+              Editor
+            </button>
+            <button
+              onClick={() => setView("kanban")}
+              className={`px-3 py-1 text-sm ${
+                view === "kanban"
+                  ? "font-medium bg-white dark:bg-zinc-900"
+                  : "text-zinc-600 dark:text-zinc-300"
+              }`}
+            >
+              Kanban
+            </button>
           </div>
-
-          {view === "kanban" ? (
-            <KanbanBoard projectId={project.id} />
-          ) : (
-            <div>
-              <Editor projectId={project.id} />
-            </div>
-          )}
         </div>
 
-        {/* Activity Feed Sidebar */}
-        <div className="w-80 shrink-0 rounded border border-zinc-100 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-          <ActivityFeed projectId={project.id} />
-        </div>
+        {view === "kanban" ? (
+          <KanbanBoard projectId={project.id} />
+        ) : (
+          <div>
+            <Editor projectId={project.id} />
+          </div>
+        )}
       </div>
     </div>
   );

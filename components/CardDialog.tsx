@@ -45,17 +45,21 @@ export default function CardDialog({
   const [labels, setLabels] = useState<string[]>(initialLabels);
   const [labelInput, setLabelInput] = useState("");
   const [members, setMembers] = useState<any[]>([]);
+  const [prevOpen, setPrevOpen] = useState(open);
 
+  // Only reset form when dialog opens (not on every prop change)
   useEffect(() => {
-    if (open) {
+    if (open && !prevOpen) {
       setTitle(initialTitle);
       setDescription(initialDescription);
       setAssignee(initialAssignee);
       setDueDate(initialDueDate);
-      setLabels(initialLabels);
+      setLabels(initialLabels || []);
     }
+    setPrevOpen(open);
   }, [
     open,
+    prevOpen,
     initialTitle,
     initialDescription,
     initialAssignee,

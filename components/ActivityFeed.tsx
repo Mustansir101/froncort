@@ -13,10 +13,17 @@ type Activity = {
   createdAt: string;
 };
 
+type Project = {
+  id: string;
+  name: string;
+  description?: string;
+};
+
 export default function ActivityFeed({ projectId }: { projectId?: string }) {
   const { isSignedIn } = useUser();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
     if (!isSignedIn) return;
@@ -44,6 +51,30 @@ export default function ActivityFeed({ projectId }: { projectId?: string }) {
     return () => clearInterval(interval);
   }, [projectId, isSignedIn]);
 
+  // Fetch project details
+  useEffect(() => {
+    if (!projectId || !isSignedIn) {
+      setProject(null);
+      return;
+    }
+
+    async function fetchProject() {
+      try {
+        const res = await fetch(
+          `/api/projects/${encodeURIComponent(projectId!)}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setProject(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch project:", err);
+      }
+    }
+
+    fetchProject();
+  }, [projectId, isSignedIn]);
+
   if (!isSignedIn) {
     return (
       <div className="rounded border border-zinc-200 p-4 text-sm text-zinc-500 dark:border-zinc-700">
@@ -62,13 +93,24 @@ export default function ActivityFeed({ projectId }: { projectId?: string }) {
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-semibold">Activity Feed</h3>
-      {activities.length === 0 ? (
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold">Activity Feed</h3>
+        {projectId && project && (
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            {project.name}
+          </span>
+        )}
+      </div>
+      {!projectId ? (
+        <div className="rounded border border-zinc-200 p-4 text-sm text-zinc-500 dark:border-zinc-700">
+          Select a project to view activity
+        </div>
+      ) : activities.length === 0 ? (
         <div className="rounded border border-zinc-200 p-4 text-sm text-zinc-500 dark:border-zinc-700">
           No activity yet
         </div>
       ) : (
-        <div className="max-h-96 space-y-2 overflow-y-auto">
+        <div className="space-y-2">
           {activities.map((activity) => (
             <div
               key={activity.id}
